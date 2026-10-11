@@ -1,0 +1,83 @@
+version: "3.9"
+
+# AI & Data Science Learning Book — Docker Compose
+#
+# Services:
+#   qdrant    — vector database  (port 6333)
+#   backend   — FastAPI RAG API  (port 8000)
+#   frontend  — Docusaurus site  (port 3000)
+#
+# Quick start:
+#   cp backend/.env.example backend/.env
+#   # Edit backend/.env — add your GEMINI_API_KEY
+#   docker compose up --build
+#
+# Ingest book content after services start:
+#   curl -X POST http://localhost:8000/api/ingest/sync \
+#        -H "Content-Type: application/json" \
+#        -d '{"force_rebuild": true}'
+
+services:
+
+  # ── Qdrant vector database ──────────────────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant:v1.9.7
+    container_name: ai_ds_qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:6333/healthz || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  # ── FastAPI backend ─────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai_ds_backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      QDRANT_URL: http://qdrant:6333
+      BOOK_DIR: /docs
+    volumes:
+      - ./frontend/docs:/docs:ro
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL",
+             "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')\" || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+
+  # ── Docusaurus frontend ─────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: http://localhost:8000
+    container_name: ai_ds_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  qdrant_data:
+    driver: local

@@ -1,0 +1,28 @@
+{
+  "id": "module-03-statistics-and-mathematics",
+  "title": "Module 3: Statistics and Mathematics for Machine Learning",
+  "description": "Level Module 2 (Python for Data Science)",
+  "source": "@site/docs/module-03-statistics-and-mathematics.md",
+  "sourceDirName": ".",
+  "slug": "/module-03-statistics-and-mathematics",
+  "permalink": "/docs/module-03-statistics-and-mathematics",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/ai-ds-learning-book/edit/main/frontend/docs/module-03-statistics-and-mathematics.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "title": "Module 3: Statistics and Mathematics for Machine Learning",
+    "sidebar_position": 3
+  },
+  "sidebar": "bookSidebar",
+  "previous": {
+    "title": "Module 2: Python for Data Science — NumPy, Pandas & Visualization",
+    "permalink": "/docs/module-02-python-for-data-science"
+  },
+  "next": {
+    "title": "Module 4: Machine Learning",
+    "permalink": "/docs/module-04-machine-learning"
+  }
+}

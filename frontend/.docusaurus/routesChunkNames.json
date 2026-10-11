@@ -1,0 +1,83 @@
+{
+  "/chat-4b9": {
+    "__comp": "25626d15",
+    "__context": {
+      "plugin": "a7456010"
+    },
+    "config": "5e9f5e1a"
+  },
+  "/progress-9ab": {
+    "__comp": "fcc9376a",
+    "__context": {
+      "plugin": "a7456010"
+    },
+    "config": "5e9f5e1a"
+  },
+  "/projects-21b": {
+    "__comp": "a8f03678",
+    "__context": {
+      "plugin": "a7456010"
+    },
+    "config": "5e9f5e1a"
+  },
+  "/docs-80d": {
+    "__comp": "5e95c892",
+    "__context": {
+      "plugin": "aba21aa0"
+    }
+  },
+  "/docs-5d3": {
+    "__comp": "a7bd4aaa",
+    "__props": "0058b4c6"
+  },
+  "/docs-9e6": {
+    "__comp": "a94703ab"
+  },
+  "/docs/intro-cda": {
+    "__comp": "17896441",
+    "content": "0e384e19"
+  },
+  "/docs/module-01-python-foundations-018": {
+    "__comp": "17896441",
+    "content": "998880de"
+  },
+  "/docs/module-02-python-for-data-science-bd1": {
+    "__comp": "17896441",
+    "content": "7c9e39b4"
+  },
+  "/docs/module-03-statistics-and-mathematics-514": {
+    "__comp": "17896441",
+    "content": "db64382a"
+  },
+  "/docs/module-04-machine-learning-aa1": {
+    "__comp": "17896441",
+    "content": "d64d83ff"
+  },
+  "/docs/module-05-deep-learning-12d": {
+    "__comp": "17896441",
+    "content": "2462e592"
+  },
+  "/docs/module-06-mlops-801": {
+    "__comp": "17896441",
+    "content": "906c3d24"
+  },
+  "/docs/module-07-big-data-and-cloud-e30": {
+    "__comp": "17896441",
+    "content": "3dfd341c"
+  },
+  "/docs/module-08-generative-ai-and-llms-7db": {
+    "__comp": "17896441",
+    "content": "9742ccd6"
+  },
+  "/docs/module-09-agentic-ai-e4e": {
+    "__comp": "17896441",
+    "content": "2cf7642d"
+  },
+  "/-e5f": {
+    "__comp": "1df93b7f",
+    "__context": {
+      "plugin": "a7456010"
+    },
+    "config": "5e9f5e1a"
+  }
+}

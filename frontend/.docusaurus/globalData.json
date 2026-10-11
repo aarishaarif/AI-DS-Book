@@ -1,0 +1,78 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "intro",
+              "path": "/docs/intro",
+              "sidebar": "bookSidebar"
+            },
+            {
+              "id": "module-01-python-foundations",
+              "path": "/docs/module-01-python-foundations",
+              "sidebar": "bookSidebar"
+            },
+            {
+              "id": "module-02-python-for-data-science",
+              "path": "/docs/module-02-python-for-data-science",
+              "sidebar": "bookSidebar"
+            },
+            {
+              "id": "module-03-statistics-and-mathematics",
+              "path": "/docs/module-03-statistics-and-mathematics",
+              "sidebar": "bookSidebar"
+            },
+            {
+              "id": "module-04-machine-learning",
+              "path": "/docs/module-04-machine-learning",
+              "sidebar": "bookSidebar"
+            },
+            {
+              "id": "module-05-deep-learning",
+              "path": "/docs/module-05-deep-learning",
+              "sidebar": "bookSidebar"
+            },
+            {
+              "id": "module-06-mlops",
+              "path": "/docs/module-06-mlops",
+              "sidebar": "bookSidebar"
+            },
+            {
+              "id": "module-07-big-data-and-cloud",
+              "path": "/docs/module-07-big-data-and-cloud",
+              "sidebar": "bookSidebar"
+            },
+            {
+              "id": "module-08-generative-ai-and-llms",
+              "path": "/docs/module-08-generative-ai-and-llms",
+              "sidebar": "bookSidebar"
+            },
+            {
+              "id": "module-09-agentic-ai",
+              "path": "/docs/module-09-agentic-ai",
+              "sidebar": "bookSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "bookSidebar": {
+              "link": {
+                "path": "/docs/intro",
+                "label": "📖 Introduction"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

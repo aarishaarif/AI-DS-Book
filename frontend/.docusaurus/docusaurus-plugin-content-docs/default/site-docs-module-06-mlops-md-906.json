@@ -1,0 +1,28 @@
+{
+  "id": "module-06-mlops",
+  "title": "Module 6: MLOps",
+  "description": "Level Module 5 (Deep Learning)",
+  "source": "@site/docs/module-06-mlops.md",
+  "sourceDirName": ".",
+  "slug": "/module-06-mlops",
+  "permalink": "/docs/module-06-mlops",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/ai-ds-learning-book/edit/main/frontend/docs/module-06-mlops.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "title": "Module 6: MLOps",
+    "sidebar_position": 6
+  },
+  "sidebar": "bookSidebar",
+  "previous": {
+    "title": "Module 5: Deep Learning",
+    "permalink": "/docs/module-05-deep-learning"
+  },
+  "next": {
+    "title": "Module 7: Big Data and Cloud Computing",
+    "permalink": "/docs/module-07-big-data-and-cloud"
+  }
+}

@@ -1,0 +1,110 @@
+# Python
+__pycache__/
+.pytest_cache/
+.coverage
+htmlcov/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# virtualenv
+.venv/
+env/
+venv/
+.ENV/
+.env/
+
+# Flask
+instance/
+.webassets-cache
+
+# Docker
+.dockerignore
+dockerfile*
+.Dockerfile
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~ *.bak
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.nyc_output
+.husky
+.pnpm-debug.log*
+
+# Local
+dist/
+build/
+out/
+*.bundle*
+*.map
+coverage
+*.orig
+.cache
+
+# Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Local Data/Qdrant Storage
+qdrant_local/
+*/*.json
+*.data
+*.dat
+*.log
+
+# Development
+.history
+tmp/
+tmp/
+debug/
+test/
+pytest.ini
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*.backup
+*.bak
+
+# System files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Package manager logs
+*.log

@@ -1,0 +1,28 @@
+{
+  "id": "module-05-deep-learning",
+  "title": "Module 5: Deep Learning",
+  "description": "Level Module 4 (Machine Learning)",
+  "source": "@site/docs/module-05-deep-learning.md",
+  "sourceDirName": ".",
+  "slug": "/module-05-deep-learning",
+  "permalink": "/docs/module-05-deep-learning",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/ai-ds-learning-book/edit/main/frontend/docs/module-05-deep-learning.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "title": "Module 5: Deep Learning",
+    "sidebar_position": 5
+  },
+  "sidebar": "bookSidebar",
+  "previous": {
+    "title": "Module 4: Machine Learning",
+    "permalink": "/docs/module-04-machine-learning"
+  },
+  "next": {
+    "title": "Module 6: MLOps",
+    "permalink": "/docs/module-06-mlops"
+  }
+}

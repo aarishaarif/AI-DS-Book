@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Background circle -->
+  <circle cx="60" cy="60" r="56" fill="#2563eb" />
+  <!-- Book shape -->
+  <rect x="28" y="30" width="28" height="60" rx="3" fill="#ffffff" opacity="0.9"/>
+  <rect x="64" y="30" width="28" height="60" rx="3" fill="#ffffff" opacity="0.7"/>
+  <!-- Spine -->
+  <rect x="54" y="30" width="12" height="60" rx="2" fill="#1d4ed8"/>
+  <!-- Lines on left page -->
+  <line x1="34" y1="45" x2="50" y2="45" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+  <line x1="34" y1="52" x2="50" y2="52" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+  <line x1="34" y1="59" x2="50" y2="59" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+  <line x1="34" y1="66" x2="50" y2="66" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+  <line x1="34" y1="73" x2="50" y2="73" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+  <!-- Neural network dots on right page -->
+  <circle cx="73" cy="44" r="3" fill="#2563eb"/>
+  <circle cx="73" cy="60" r="3" fill="#2563eb"/>
+  <circle cx="73" cy="76" r="3" fill="#2563eb"/>
+  <circle cx="83" cy="52" r="3" fill="#059669"/>
+  <circle cx="83" cy="68" r="3" fill="#059669"/>
+  <!-- Network lines -->
+  <line x1="73" y1="44" x2="83" y2="52" stroke="#2563eb" stroke-width="1.5" opacity="0.6"/>
+  <line x1="73" y1="60" x2="83" y2="52" stroke="#2563eb" stroke-width="1.5" opacity="0.6"/>
+  <line x1="73" y1="60" x2="83" y2="68" stroke="#2563eb" stroke-width="1.5" opacity="0.6"/>
+  <line x1="73" y1="76" x2="83" y2="68" stroke="#2563eb" stroke-width="1.5" opacity="0.6"/>
+</svg>

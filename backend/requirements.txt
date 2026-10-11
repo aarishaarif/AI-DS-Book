@@ -1,0 +1,35 @@
+# AI & Data Science Learning Book — Backend Dependencies
+# Pinned to exact versions for reproducibility.
+# Install with:  pip install -r requirements.txt
+# Dev extras:    pip install -r requirements.txt -r requirements-dev.txt
+
+# ── Web Framework ──────────────────────────────────────────────────────────
+fastapi==0.143.0
+uvicorn[standard]==0.54.0
+starlette==1.7.0
+python-multipart==0.0.32    # required for file upload support
+
+# ── Data Validation ────────────────────────────────────────────────────────
+pydantic==2.14.0
+pydantic-settings==2.15.0
+pydantic-extra-types==2.11.1
+
+# ── Google Gemini ──────────────────────────────────────────────────────────
+google-genai==2.29.0          # new google.genai SDK (embed + generate)
+google-generativeai==0.8.6    # legacy SDK (also installed for compatibility)
+
+# ── Vector Database ────────────────────────────────────────────────────────
+qdrant-client==1.19.1
+
+# ── Text Processing ────────────────────────────────────────────────────────
+tiktoken==0.14.0              # token counting for chunker
+
+# ── Environment ────────────────────────────────────────────────────────────
+python-dotenv==1.2.4
+
+# ── HTTP Client ────────────────────────────────────────────────────────────
+httpx==0.28.1
+anyio==4.15.1
+
+# ── Numerical ──────────────────────────────────────────────────────────────
+numpy==2.5.4

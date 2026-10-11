@@ -1,0 +1,28 @@
+{
+  "id": "module-08-generative-ai-and-llms",
+  "title": "Module 8: Generative AI and Large Language Models",
+  "description": "Level Module 5 (Deep Learning)",
+  "source": "@site/docs/module-08-generative-ai-and-llms.md",
+  "sourceDirName": ".",
+  "slug": "/module-08-generative-ai-and-llms",
+  "permalink": "/docs/module-08-generative-ai-and-llms",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/ai-ds-learning-book/edit/main/frontend/docs/module-08-generative-ai-and-llms.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "title": "Module 8: Generative AI and Large Language Models",
+    "sidebar_position": 8
+  },
+  "sidebar": "bookSidebar",
+  "previous": {
+    "title": "Module 7: Big Data and Cloud Computing",
+    "permalink": "/docs/module-07-big-data-and-cloud"
+  },
+  "next": {
+    "title": "Module 9: Agentic AI",
+    "permalink": "/docs/module-09-agentic-ai"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "intro",
+  "title": "Introduction to the AI & Data Science Learning Book",
+  "description": "This book is an independent educational project designed to guide you from the fundamentals of Python to the frontiers of Agentic AI. It is built as a modern Docusaurus-based website with a strict, book-grounded RAG chatbot.",
+  "source": "@site/docs/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/docs/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/ai-ds-learning-book/edit/main/frontend/docs/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 0,
+  "frontMatter": {
+    "title": "Introduction to the AI & Data Science Learning Book",
+    "sidebar_position": 0
+  },
+  "sidebar": "bookSidebar",
+  "next": {
+    "title": "Python Foundations",
+    "permalink": "/docs/module-01-python-foundations"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "module-02-python-for-data-science",
+  "title": "Module 2: Python for Data Science — NumPy, Pandas & Visualization",
+  "description": "Level Module 1 (Python Foundations)",
+  "source": "@site/docs/module-02-python-for-data-science.md",
+  "sourceDirName": ".",
+  "slug": "/module-02-python-for-data-science",
+  "permalink": "/docs/module-02-python-for-data-science",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/ai-ds-learning-book/edit/main/frontend/docs/module-02-python-for-data-science.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "title": "Module 2: Python for Data Science — NumPy, Pandas & Visualization",
+    "sidebar_position": 2
+  },
+  "sidebar": "bookSidebar",
+  "previous": {
+    "title": "Python Foundations",
+    "permalink": "/docs/module-01-python-foundations"
+  },
+  "next": {
+    "title": "Module 3: Statistics and Mathematics for Machine Learning",
+    "permalink": "/docs/module-03-statistics-and-mathematics"
+  }
+}

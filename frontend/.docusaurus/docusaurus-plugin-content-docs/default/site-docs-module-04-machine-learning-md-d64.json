@@ -1,0 +1,28 @@
+{
+  "id": "module-04-machine-learning",
+  "title": "Module 4: Machine Learning",
+  "description": "Level Modules 1–3",
+  "source": "@site/docs/module-04-machine-learning.md",
+  "sourceDirName": ".",
+  "slug": "/module-04-machine-learning",
+  "permalink": "/docs/module-04-machine-learning",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/ai-ds-learning-book/edit/main/frontend/docs/module-04-machine-learning.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "title": "Module 4: Machine Learning",
+    "sidebar_position": 4
+  },
+  "sidebar": "bookSidebar",
+  "previous": {
+    "title": "Module 3: Statistics and Mathematics for Machine Learning",
+    "permalink": "/docs/module-03-statistics-and-mathematics"
+  },
+  "next": {
+    "title": "Module 5: Deep Learning",
+    "permalink": "/docs/module-05-deep-learning"
+  }
+}
