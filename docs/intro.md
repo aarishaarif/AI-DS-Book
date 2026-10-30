@@ -7,8 +7,6 @@ sidebar_position: 0
 
 This book is an **independent educational project** designed to guide you from the fundamentals of Python to the frontiers of Agentic AI. It is built as a modern Docusaurus-based website with a strict, book-grounded RAG chatbot.
 
-> **Disclaimer:** This project is an independent educational resource and is **not officially affiliated with Saylani AI & Data Science**, its curriculum, or its instructors. The curriculum structure is inspired by the publicly available course outline at [Saylani AI & Data Science](https://www.saylaniit.com/courses/artificial-intelligence-and-data-science).
-
 ## What You Will Learn
 
 This book covers nine progressive modules:

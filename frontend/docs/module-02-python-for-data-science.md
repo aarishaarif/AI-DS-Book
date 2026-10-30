@@ -19,6 +19,18 @@ sidebar_position: 2
 - Build informative charts with Matplotlib and Seaborn
 - Apply a full Exploratory Data Analysis (EDA) workflow
 
+## The Data Science Mental Model
+
+Data science turns observations into decisions through a repeatable loop: inspect the data, clean it, summarize it, visualize patterns, and question the result. NumPy provides efficient numerical arrays, Pandas adds labeled tables, and visualization makes distributions and relationships visible. A chart is evidence to investigate, not proof by itself.
+
+| Term | Meaning |
+| --- | --- |
+| Vectorization | Applying an operation to an array without a Python loop |
+| Index | The label or position used to select data |
+| Missing value | An observation with no recorded value |
+| Aggregation | Combining rows into a summary such as a mean or count |
+| Distribution | The pattern of values and their frequencies |
+
 ---
 
 ## 2.1 NumPy — Numerical Python
@@ -57,6 +69,10 @@ print(a * b)       # [4 10 18]
 print(a ** 2)      # [1 4 9]
 print(a + 10)      # broadcasting: [11 12 13]
 ```
+
+:::tip How this code works
+NumPy applies arithmetic element by element. In `a + 10`, broadcasting reuses the single value `10` across every element, so you can transform a whole array without writing a loop.
+:::
 
 ### Indexing and Slicing
 
@@ -149,6 +165,10 @@ print(summary)
 # Engineering  72500      2
 # Marketing    72000      1
 ```
+
+:::tip How this code works
+`groupby('dept')` splits the table by department, then `agg` calculates two summaries for each group. This split–apply–combine pattern turns row-level data into a useful report.
+:::
 
 ### Merging DataFrames
 
@@ -243,6 +263,14 @@ plt.tight_layout(); plt.show()
 5. Plot total sales by month using a bar chart from a time-series dataset.
 
 ---
+
+## Review Questions
+
+1. How do NumPy arrays differ from Python lists in storage and computation?
+2. What does broadcasting allow, and when can it produce an unintended shape?
+3. Why should missing-value and scaling decisions be based on the training data only?
+4. When would you use `groupby`, a merge, or a pivot table in Pandas?
+5. Which visualization would help reveal a distribution, a relationship, and a category comparison?
 
 ## Further Reading
 

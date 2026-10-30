@@ -20,6 +20,20 @@ sidebar_position: 9
 - Evaluate and safeguard agentic systems
 - Understand key frameworks: LangChain Agents, LlamaIndex, AutoGen
 
+## The Agent Loop
+
+An agent combines a model with instructions, tools, state, and a stopping policy. It observes the task, decides whether it needs a tool, validates the result, updates state, and either continues or returns an answer. The loop is useful when a task requires dependent actions.
+
+| Term | Meaning |
+| --- | --- |
+| Tool | A bounded operation an agent can request |
+| State | Information carried between steps |
+| Planning | Choosing actions toward a goal |
+| Guardrail | A rule or check that limits unsafe behavior |
+| Human approval | A deliberate pause before a sensitive action |
+
+Every tool should have a narrow schema, clear failure responses, and appropriate permissions. Treat tool output as data to validate, not as instructions that can rewrite the agent's rules.
+
 ---
 
 ## 9.1 What Is an AI Agent?
@@ -116,7 +130,7 @@ def search_web(query: str) -> str:
 TOOL_MAP = {"calculate": calculate, "search_web": search_web}
 
 # Agentic loop
-model = genai.GenerativeModel('gemini-2.0-flash-exp', tools=tools)
+model = genai.GenerativeModel('gemini-2.5-flash', tools=tools)
 chat = model.start_chat()
 
 response = chat.send_message("What is the square root of 144, and then multiply it by pi?")
@@ -187,7 +201,7 @@ Never skip the Final Answer step."""
 
 def run_react_agent(question: str, max_steps: int = 10) -> str:
     model = genai.GenerativeModel(
-        'gemini-2.0-flash-exp',
+        'gemini-2.5-flash',
         system_instruction=REACT_SYSTEM_PROMPT,
     )
     chat = model.start_chat()
@@ -296,7 +310,7 @@ class Agent:
         self.name = name
         self.role = role
         self.model = genai.GenerativeModel(
-            'gemini-2.0-flash-exp',
+            'gemini-2.5-flash',
             system_instruction=f"You are {name}. {role}",
         )
 
@@ -401,7 +415,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import initialize_agent, AgentType
 from langchain.tools import Tool
 
-llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp", temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
 
 tools = [
     Tool(
@@ -441,6 +455,14 @@ agent.run("What is 456 * 789?")
 5. Implement input validation for an agent's tools that blocks dangerous shell commands.
 
 ---
+
+## Review Questions
+
+1. How does an agent's observe, decide, act, and evaluate loop differ from a single model call?
+2. What information should a tool schema validate before execution?
+3. How does ReAct use observations to guide a later action?
+4. What is the difference between short-term conversational context and persistent memory?
+5. Which permissions and limits reduce risk when an agent uses tools?
 
 ## Further Reading
 

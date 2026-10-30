@@ -1,11 +1,4 @@
 {
-  "/chat-4b9": {
-    "__comp": "25626d15",
-    "__context": {
-      "plugin": "a7456010"
-    },
-    "config": "5e9f5e1a"
-  },
   "/progress-9ab": {
     "__comp": "fcc9376a",
     "__context": {
@@ -20,18 +13,22 @@
     },
     "config": "5e9f5e1a"
   },
-  "/docs-80d": {
+  "/docs-09c": {
     "__comp": "5e95c892",
     "__context": {
       "plugin": "aba21aa0"
     }
   },
-  "/docs-5d3": {
+  "/docs-46f": {
     "__comp": "a7bd4aaa",
     "__props": "0058b4c6"
   },
-  "/docs-9e6": {
+  "/docs-171": {
     "__comp": "a94703ab"
+  },
+  "/docs/capstone-end-to-end-ai-project-898": {
+    "__comp": "17896441",
+    "content": "23bf7313"
   },
   "/docs/intro-cda": {
     "__comp": "17896441",

@@ -19,6 +19,20 @@ sidebar_position: 3
 - Apply calculus concepts to understand gradient-based optimization
 - Select appropriate statistical tests for hypothesis testing
 
+## Why the Mathematics Matters
+
+Statistics describes uncertainty in data, linear algebra represents data and model parameters, and calculus describes how a small change affects an output. Machine learning combines these ideas to choose parameters that reduce an error measure.
+
+For gradient descent, if the loss is `L(w)`, the update is `w_new = w_old - η(dL/dw)`. Here `η` is the learning rate. If `w = 4`, the derivative is `6`, and `η = 0.1`, the next value is `4 - 0.1(6) = 3.4`; the minus sign moves the parameter downhill on the loss surface.
+
+| Term | Meaning |
+| --- | --- |
+| Population | The complete group we want to understand |
+| Sample | The observations we actually measure |
+| Variance | Average squared distance from the mean |
+| Vector | An ordered list of numbers with direction and magnitude |
+| Gradient | The vector of partial derivatives |
+
 ---
 
 ## 3.1 Descriptive Statistics
@@ -312,6 +326,14 @@ cov = numeric.cov()
 5. Run a two-sample t-test on two groups and interpret the result at α=0.05.
 
 ---
+
+## Review Questions
+
+1. How do population parameters differ from sample statistics?
+2. What information do variance and standard deviation communicate?
+3. How does Bayes' theorem update a probability after new evidence?
+4. Why does correlation not establish causation?
+5. What does a confidence interval describe, and what does it not mean?
 
 ## Further Reading
 

@@ -72,6 +72,7 @@ class RAGRetriever:
                 "section": metadata.get("heading", metadata.get("section", "")),
                 "lesson": metadata.get("lesson", ""),
                 "file_path": metadata.get("file_path", ""),
+                "source_route": metadata.get("source_route", ""),
                 "chunk_id": chunk.get("id", ""),
                 "relevance_score": chunk.get("score", 0.0),
                 "text_excerpt": chunk["content"][:200] + "..."

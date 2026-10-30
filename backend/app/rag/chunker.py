@@ -11,7 +11,16 @@ import tiktoken
 try:
     encoding = tiktoken.encoding_for_model("gemini-embedding-001")
 except Exception:
-    encoding = tiktoken.get_encoding("cl100k_base")
+    try:
+        encoding = tiktoken.get_encoding("cl100k_base")
+    except Exception:
+        class _OfflineEncoding:
+            """Small deterministic fallback that never downloads tokenizer data."""
+            @staticmethod
+            def encode(value: str):
+                return re.findall(r"\w+|[^\w\s]", value, flags=re.UNICODE)
+
+        encoding = _OfflineEncoding()
 
 
 def chunk_by_tokens(
@@ -86,6 +95,26 @@ def chunk_by_tokens(
             "token_count": current_token_count,
             "metadata": current_metadata.copy(),
         })
+
+    # Attach the nearest section and its heading ancestry to each chunk. The
+    # file-level heading supplies the parent when a chunk starts mid-chapter.
+    for chunk in chunks:
+        hierarchy = {}
+        base_heading = (metadata or {}).get("heading", "")
+        if base_heading.startswith("#"):
+            level = len(base_heading) - len(base_heading.lstrip("#"))
+            hierarchy[level] = base_heading.lstrip("#").strip()
+        for line in chunk["content"].splitlines():
+            match = re.match(r"^(#{1,6})\s+(.+?)\s*#*\s*$", line)
+            if not match:
+                continue
+            level, title = len(match.group(1)), match.group(2).strip()
+            hierarchy = {depth: value for depth, value in hierarchy.items() if depth < level}
+            hierarchy[level] = title
+        ordered = [hierarchy[level] for level in sorted(hierarchy)]
+        if ordered:
+            chunk["metadata"]["heading"] = ordered[-1]
+            chunk["metadata"]["heading_hierarchy"] = ordered
 
     return chunks
 

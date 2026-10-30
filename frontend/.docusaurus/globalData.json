@@ -11,6 +11,11 @@
           "mainDocId": "intro",
           "docs": [
             {
+              "id": "capstone-end-to-end-ai-project",
+              "path": "/docs/capstone-end-to-end-ai-project",
+              "sidebar": "bookSidebar"
+            },
+            {
               "id": "intro",
               "path": "/docs/intro",
               "sidebar": "bookSidebar"

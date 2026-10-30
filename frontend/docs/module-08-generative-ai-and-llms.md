@@ -20,6 +20,20 @@ sidebar_position: 8
 - Fine-tune LLMs for specific tasks
 - Evaluate and safeguard LLM outputs
 
+## How Generative AI Fits Together
+
+An LLM receives tokens, transforms their representations through attention layers, and predicts a continuation. Embeddings represent meaning as vectors so related text can be found. Prompting shapes the task at runtime, fine-tuning changes model behavior through training, and RAG supplies selected context at answer time.
+
+| Term | Meaning |
+| --- | --- |
+| Token | A unit of text processed by a language model |
+| Embedding | A vector representation used to compare meaning |
+| Attention | A mechanism that weighs relationships between tokens |
+| Context window | The input and output space available for a request |
+| Grounding | Tying an answer to evidence from a trusted source |
+
+RAG follows a clear sequence: chunk source documents, embed and store chunks, retrieve candidates, check relevance, and generate only from accepted evidence.
+
 ---
 
 ## 8.1 The Transformer Architecture
@@ -79,7 +93,7 @@ import os
 
 genai.configure(api_key=os.environ['GEMINI_API_KEY'])
 
-model = genai.GenerativeModel('gemini-2.0-flash-exp')
+model = genai.GenerativeModel('gemini-2.5-flash')
 response = model.generate_content("Explain gradient descent in simple terms.")
 print(response.text)
 ```
@@ -105,7 +119,7 @@ import google.generativeai as genai
 from google.generativeai import types
 
 model = genai.GenerativeModel(
-    'gemini-2.0-flash-exp',
+    'gemini-2.5-flash',
     generation_config=types.GenerationConfig(
         temperature=0.2,         # Lower = more deterministic
         max_output_tokens=512,
@@ -205,7 +219,7 @@ response = model.generate_content(cot_prompt)
 
 ```python
 model = genai.GenerativeModel(
-    'gemini-2.0-flash-exp',
+    'gemini-2.5-flash',
     system_instruction="""
 You are an expert Python tutor. Your responses should:
 - Be concise and beginner-friendly
@@ -221,6 +235,10 @@ You are an expert Python tutor. Your responses should:
 ## 8.5 Retrieval-Augmented Generation (RAG)
 
 RAG improves LLM accuracy by grounding answers in retrieved documents rather than relying on parametric memory.
+
+:::info Why the pipeline matters
+The question is converted into an embedding so the system can compare meaning rather than only exact words. The closest chunks become context for the model; the model is instructed to answer from that context and return source sections.
+:::
 
 ```
 User Question
@@ -282,7 +300,7 @@ def answer_with_rag(question: str) -> str:
     context = "\n\n".join([r.payload["text"] for r in results])
 
     # Generate grounded answer
-    gen_model = genai.GenerativeModel('gemini-2.0-flash-exp')
+    gen_model = genai.GenerativeModel('gemini-2.5-flash')
     prompt = f"""Answer the question using ONLY the context below.
 Context:
 {context}
@@ -294,6 +312,10 @@ Answer:"""
 
 print(answer_with_rag("What is Pandas used for?"))
 ```
+
+:::tip How this code works
+The collection stores one vector per document. At question time, the question gets its own vector, Qdrant finds nearby vectors using cosine similarity, and only those retrieved documents are passed to the generator. This makes retrieval inspectable and lets the answer include citations.
+:::
 
 ---
 
@@ -394,6 +416,14 @@ Provide a JSON response: {{"accuracy": X, "completeness": X, "clarity": X, "reas
 5. Write a prompt that extracts structured JSON data (name, date, amount) from unstructured invoice text.
 
 ---
+
+## Review Questions
+
+1. How does self-attention let a transformer use context from other tokens?
+2. What does an embedding represent, and why compare embeddings with cosine similarity?
+3. How does RAG combine retrieval with language generation?
+4. When might fine-tuning be preferable to retrieval or prompt changes?
+5. Why should generated output be evaluated for factuality as well as fluency?
 
 ## Further Reading
 

@@ -3,11 +3,6 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
-    path: '/chat',
-    component: ComponentCreator('/chat', '4b9'),
-    exact: true
-  },
-  {
     path: '/progress',
     component: ComponentCreator('/progress', '9ab'),
     exact: true
@@ -19,16 +14,22 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '80d'),
+    component: ComponentCreator('/docs', '09c'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '5d3'),
+        component: ComponentCreator('/docs', '46f'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '9e6'),
+            component: ComponentCreator('/docs', '171'),
             routes: [
+              {
+                path: '/docs/capstone-end-to-end-ai-project',
+                component: ComponentCreator('/docs/capstone-end-to-end-ai-project', '898'),
+                exact: true,
+                sidebar: "bookSidebar"
+              },
               {
                 path: '/docs/intro',
                 component: ComponentCreator('/docs/intro', 'cda'),

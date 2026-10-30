@@ -20,6 +20,20 @@ sidebar_position: 5
 - Build RNNs/LSTMs for sequence modeling
 - Prevent overfitting with regularization techniques
 
+## The Neural Network Mental Model
+
+A neural network is a composition of functions. Each layer transforms a tensor, an activation function adds useful nonlinearity, and a loss function measures the current error. During training, backpropagation applies the chain rule to calculate gradients and an optimizer changes the weights.
+
+For one neuron, `z = wᵀx + b` and `a = f(z)`. The vector `x` contains inputs, `w` contains learned weights, `b` is a bias, and `f` is an activation function.
+
+| Term | Meaning |
+| --- | --- |
+| Tensor | An array that may have several dimensions |
+| Epoch | One pass through the training data |
+| Batch | Examples used for one weight update |
+| Activation | A function that transforms a layer output |
+| Backpropagation | Efficient gradient calculation through a network |
+
 ---
 
 ## 5.1 The Artificial Neuron
@@ -282,6 +296,14 @@ model.compile(
 5. Build an LSTM for sentiment classification on the IMDB movie review dataset.
 
 ---
+
+## Review Questions
+
+1. What do a neuron's weights, bias, and activation function each contribute?
+2. How does backpropagation use the chain rule to compute parameter gradients?
+3. What tensor shape does a convolution layer receive and produce?
+4. How do dropout and early stopping reduce overfitting in different ways?
+5. Why might an image task benefit from a CNN or transfer learning?
 
 ## Further Reading
 

@@ -20,6 +20,18 @@ sidebar_position: 7
 - Understand streaming data with Kafka fundamentals
 - Apply cloud-native ML services
 
+## Scaling the Data Problem
+
+Big data creates pressure in storage, computation, and movement. A distributed system divides work across machines, keeps data in durable formats, and delays computation until it can optimize the plan. Spark transformations describe work while actions execute it.
+
+| Term | Meaning |
+| --- | --- |
+| Partition | A slice of data processed by one task |
+| Cluster | A group of machines working together |
+| Lazy evaluation | Deferring computation until an action requests a result |
+| Data lake | Flexible storage for raw and processed data |
+| Stream | An unbounded sequence of events arriving over time |
+
 ---
 
 ## 7.1 What Is Big Data?
@@ -354,6 +366,14 @@ predictor = estimator.deploy(initial_instance_count=1, instance_type='ml.t2.medi
 5. Use boto3 to upload a trained model artifact to S3 and download it in a different script.
 
 ---
+
+## Review Questions
+
+1. When is distributed processing useful, and what overhead does it add?
+2. Why are Spark transformations lazy while actions trigger execution?
+3. How does a columnar format such as Parquet help analytical queries?
+4. What roles do Kafka producers, topics, partitions, and consumers play?
+5. How do cloud object storage and a data warehouse serve different needs?
 
 ## Further Reading
 

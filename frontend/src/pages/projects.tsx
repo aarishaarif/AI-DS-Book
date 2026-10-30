@@ -296,9 +296,6 @@ export default function ProjectsPage(): JSX.Element {
                 <a href={p.moduleUrl} className="btn-read-module">
                   Review Lesson Material →
                 </a>
-                <a href="/chat" className="btn-ask-ai">
-                  Ask RAG Chatbot About This →
-                </a>
               </div>
             </article>
           ))}

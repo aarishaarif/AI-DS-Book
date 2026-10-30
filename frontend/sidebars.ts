@@ -52,6 +52,11 @@ const sidebars: SidebarsConfig = {
       label: 'Module 9: Agentic AI',
       items: ['module-09-agentic-ai'],
     },
+    {
+      type: 'doc',
+      id: 'capstone-end-to-end-ai-project',
+      label: 'Capstone: End-to-End AI Project',
+    },
   ],
 };
 

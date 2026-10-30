@@ -2,8 +2,6 @@
 
 An interactive, full-stack educational platform that combines a nine-module AI/Data Science book with a strictly book-grounded RAG chatbot.
 
-> **Disclaimer:** This is an independent educational project and is **not** officially affiliated with Saylani AI & Data Science or any other organisation.
-
 ---
 
 ## What's Inside
@@ -13,7 +11,7 @@ An interactive, full-stack educational platform that combines a nine-module AI/D
 | Book / Frontend | Docusaurus 3, React, TypeScript |
 | Backend API | Python 3.11, FastAPI, Pydantic v2 |
 | Embeddings | Google Gemini (`models/gemini-embedding-001`) |
-| Generation | Google Gemini (`gemini-2.0-flash-exp`) |
+| Generation | Google Gemini (`gemini-3.5-flash-lite`) |
 | Vector Store | Qdrant |
 | Containerisation | Docker, Docker Compose |
 
@@ -40,14 +38,19 @@ ai-ds-learning-book/
 │   ├── module-01-python-foundations.md
 │   └── module-02 … module-09 …
 ├── frontend/                    # Docusaurus site
-│   ├── docs/                    # Symlink / copy of docs/
+│   ├── docs/                    # Copy of docs/ served by Docusaurus
+│   ├── chatbot/                 # Docusaurus route alias → src/pages/chat
+│   │   ├── index.tsx
+│   │   └── Chatbot.css
 │   ├── src/
-│   │   ├── pages/               # Custom React pages (home, chat)
-│   │   ├── components/          # Reusable components (Quiz, Progress)
+│   │   ├── pages/               # Custom React pages (home, chat, progress, projects)
+│   │   ├── components/          # Reusable components (FloatingChatbot, Quiz, Progress)
+│   │   ├── theme/               # Docusaurus theme overrides (Root.tsx)
 │   │   └── css/custom.css
 │   ├── static/img/              # Logo SVG, favicon
 │   ├── docusaurus.config.ts
 │   ├── sidebars.ts
+│   ├── tsconfig.json
 │   ├── package.json
 │   └── Dockerfile
 ├── backend/
@@ -65,7 +68,8 @@ ai-ds-learning-book/
 │   │       ├── retrieve.py      # Vector retrieval + evidence check
 │   │       ├── generator.py     # Grounded answer generation
 │   │       ├── ingest.py        # Book content indexer
-│   │       └── store.py         # Qdrant integration
+│   │       ├── store.py         # Qdrant integration
+│   │       └── constants.py     # Shared RAG constants
 │   ├── tests/
 │   │   ├── conftest.py
 │   │   ├── test_api.py          # 20 endpoint tests
@@ -119,7 +123,9 @@ Open `backend/.env` and fill in at minimum:
 GEMINI_API_KEY=your_key_here
 ```
 
-Leave `QDRANT_URL=http://localhost:6333` for local development.
+For the existing Cloud cluster, set `QDRANT_URL` to its HTTPS endpoint and
+`QDRANT_API_KEY` in `backend/.env`. The backend does not inherit variables from
+the Codex MCP process.
 
 ### 3. Start Qdrant
 
@@ -164,11 +170,13 @@ Expected response:
 {
   "status": "completed",
   "message": "Ingestion completed successfully.",
-  "files_discovered": 10,
-  "chunks_indexed": 35,
+  "files_discovered": 11,
+  "chunks_indexed": 39,
   "errors": 0
 }
 ```
+
+These figures describe the current local dry-run; live totals can change with content and chunk settings.
 
 ### 6. Run the frontend
 
@@ -188,7 +196,7 @@ The site is now available at <http://localhost:3000>.
 cd backend
 source .venv/bin/activate
 pip install -r requirements-dev.txt
-pytest                            # run all 73 tests
+pytest                            # run the backend test suite
 pytest tests/test_api.py -v       # endpoint tests only
 pytest tests/test_chunker.py      # chunker unit tests
 pytest tests/test_rag_pipeline.py # RAG pipeline tests
@@ -196,6 +204,60 @@ pytest tests/test_evaluation.py   # RAG grounded eval & refusal benchmark
 ```
 
 Tests run without real API credentials — all external services are mocked.
+
+## RAG and Qdrant Operations
+
+The FastAPI service connects to Qdrant at runtime. Codex-to-Qdrant MCP is a separate management connection and does not provide the website with runtime access.
+
+The default collection is `ai_ds_book`. The backend uses `models/gemini-embedding-001` with an explicitly requested 768 dimensional output and cosine distance. The model supports 128–3072 dimensions; 768 is one of Google's recommended sizes. Keep `EMBEDDING_DIMENSION` unchanged for an existing collection, or create a new collection and reindex when changing embedding models or dimensions.
+
+Docker Compose passes the values from `backend/.env` into the backend. The bundled Qdrant service is optional local infrastructure; it is not used when `QDRANT_URL` points to Cloud. To use Cloud, set `QDRANT_URL=https://your-cluster-url` and `QDRANT_API_KEY` in `backend/.env`, then start Compose.
+
+Check the local configuration and collection connection:
+
+```bash
+cd backend
+python ingest_cli.py --check
+```
+
+Inspect discovered lessons and deterministic chunks without credentials:
+
+```bash
+python ingest_cli.py --dry-run
+```
+
+Run an incremental synchronization. Changed lessons are replaced by document id, deleted lessons have their stale chunks removed, and unrelated collections are untouched:
+
+```bash
+python ingest_cli.py
+```
+
+Run a full rebuild of points tagged for this book dataset in `ai_ds_book` (the collection itself is preserved):
+
+```bash
+python ingest_cli.py --force-rebuild
+```
+
+The API equivalents are `GET /api/health`, `POST /api/ingest/sync`, and `GET /api/ingest/status`. A live index run requires `GEMINI_API_KEY` and a reachable Qdrant instance. Run `python ingest_cli.py --check` before ingestion and `python ingest_cli.py --dry-run` to preview file and chunk totals. A successful API health response alone does not prove Qdrant is reachable. The current restricted execution environment cannot resolve the configured Cloud endpoint, so the collection must be checked from a network-enabled runtime before creation or ingestion.
+
+## Codex Qdrant MCP
+
+The configured Qdrant MCP tool responded to a read query in this session. Its available tools are Qdrant memory lookup and storage; they do not expose collection listing, schema inspection, point counts, or vector search for the application collection. The MCP check therefore does not verify the app's collection or replace its Python Qdrant client. In this environment, `python ingest_cli.py --check` could not reach the configured Qdrant endpoint (`Operation not permitted`), so live collection details and ingestion remain unverified.
+
+For local stdio setup, the official server documents:
+
+```bash
+QDRANT_URL=http://localhost:6333 \
+COLLECTION_NAME=ai_ds_book \
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2 \
+uvx mcp-server-qdrant
+```
+
+Use the FastAPI environment values for the website. The MCP server's embedding settings are independent of the Gemini vectors used by the website; do not use MCP to write vectors into the application collection unless its embedding model and dimensions match the backend configuration.
+
+## Refusal Behavior
+
+Greetings receive a short response. Questions without sufficient retrieved evidence receive: “I can only answer questions using the content available in this AI/ML book. I could not find enough relevant information in the book to answer your question.” Qdrant or embedding failures receive a separate temporary service message. The generator is instructed to use accepted book evidence only and to ignore instructions found inside retrieved text.
 
 ---
 
@@ -309,7 +371,7 @@ All settings are loaded from `backend/.env`. See `backend/.env.example` for desc
 |---|---|---|
 | `GEMINI_API_KEY` | — | **Required.** Your Gemini API key |
 | `GEMINI_EMBEDDING_MODEL` | `models/gemini-embedding-001` | Embedding model |
-| `GEMINI_GENERATION_MODEL` | `gemini-2.0-flash-exp` | Generation model |
+| `GEMINI_GENERATION_MODEL` | `gemini-3.5-flash-lite` | Generation model |
 | `QDRANT_URL` | `http://localhost:6333` | Qdrant endpoint |
 | `QDRANT_API_KEY` | — | Required for Qdrant Cloud |
 | `CHUNK_SIZE` | `800` | Target tokens per chunk |
@@ -390,4 +452,4 @@ curl -X POST http://localhost:8000/api/ingest/sync \
 
 ## License
 
-MIT — see `LICENSE` for details.
+MIT

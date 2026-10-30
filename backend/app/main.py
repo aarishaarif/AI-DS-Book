@@ -29,14 +29,23 @@ async def lifespan(app: FastAPI):
     global _pipeline
     settings = get_settings()
 
+    if not (settings.gemini_api_key or settings.gemini_embedding_api_key):
+        logger.warning("RAG pipeline is disabled: GEMINI_API_KEY is not configured")
+        yield
+        return
+
     try:
         _pipeline = RAGPipeline(
             embedding_model=settings.gemini_embedding_model,
             generation_model=settings.gemini_generation_model,
+            api_key=settings.gemini_api_key or settings.gemini_embedding_api_key,
             qdrant_url=settings.qdrant_url,
             qdrant_api_key=settings.qdrant_api_key,
+            collection_name=settings.qdrant_collection_name,
+            embedding_dimension=settings.embedding_dimension,
             book_dir=settings.book_dir,
             evidence_threshold=settings.evidence_threshold,
+            retrieval_limit=settings.retrieval_limit,
             chunk_size=settings.chunk_size,
             chunk_overlap=settings.chunk_overlap,
         )

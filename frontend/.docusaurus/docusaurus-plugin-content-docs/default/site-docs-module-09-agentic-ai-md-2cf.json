@@ -8,7 +8,6 @@
   "permalink": "/docs/module-09-agentic-ai",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/your-org/ai-ds-learning-book/edit/main/frontend/docs/module-09-agentic-ai.md",
   "tags": [],
   "version": "current",
   "sidebarPosition": 9,
@@ -20,5 +19,9 @@
   "previous": {
     "title": "Module 8: Generative AI and Large Language Models",
     "permalink": "/docs/module-08-generative-ai-and-llms"
+  },
+  "next": {
+    "title": "Capstone: End-to-End AI Project",
+    "permalink": "/docs/capstone-end-to-end-ai-project"
   }
 }

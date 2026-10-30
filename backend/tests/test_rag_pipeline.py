@@ -127,7 +127,7 @@ class TestAnswerGenerator:
     def _make_generator(self, answer_text="Python is a language."):
         from app.rag.generator import AnswerGenerator
 
-        generator = AnswerGenerator(generation_model="gemini-2.0-flash-exp", evidence_threshold=0.7)
+        generator = AnswerGenerator(generation_model="gemini-2.5-flash", evidence_threshold=0.7)
 
         # Mock the Gemini client
         mock_response = MagicMock()
@@ -158,7 +158,10 @@ class TestAnswerGenerator:
         generator, mock_genai = self._make_generator()
         with patch("app.rag.generator.genai", mock_genai):
             result = generator.generate_answer("What is Python?", chunks=[])
-        assert "I couldn't find" in result["answer"]
+        assert result["answer"] == (
+            "I can only answer questions using the content available in this AI/ML book. "
+            "I could not find enough relevant information in the book to answer your question."
+        )
         assert result["evidence_threshold_met"] is False
 
     def test_generate_answer_has_citations_field(self):
@@ -249,7 +252,11 @@ class TestRAGPipeline:
         pipeline.retriever.check_sufficient_evidence.return_value = False
         result = pipeline.answer_question("What is quantum computing?")
         assert result["evidence_threshold_met"] is False
-        assert "I couldn't find" in result["answer"]
+        assert result["classification"] == "out_of_scope"
+        assert result["answer"] == (
+            "I can only answer questions using the content available in this AI/ML book. "
+            "I could not find enough relevant information in the book to answer your question."
+        )
 
     def test_ingest_content_calls_indexer(self):
         pipeline = self._make_pipeline()

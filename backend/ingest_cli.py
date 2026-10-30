@@ -26,7 +26,7 @@ logging.basicConfig(
 logger = logging.getLogger("ingest-cli")
 
 
-def run_dry_run(book_dir: str) -> int:
+def run_dry_run(book_dir: str, chunk_size: int = 800, chunk_overlap: int = 100) -> int:
     """Validate and chunk files without calling external APIs."""
     logger.info(f"Running in DRY-RUN mode against: {book_dir}")
     if not os.path.exists(book_dir):
@@ -49,7 +49,7 @@ def run_dry_run(book_dir: str) -> int:
     for f in files:
         with open(f, "r", encoding="utf-8") as fp:
             content = fp.read()
-        chunks = chunk_by_tokens(content, chunk_size=800, chunk_overlap=100)
+        chunks = chunk_by_tokens(content, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         total_chunks += len(chunks)
         rel = os.path.relpath(f, book_dir)
         logger.info(f"  • {rel} -> {len(chunks)} chunks")
@@ -78,6 +78,11 @@ def main() -> int:
         action="store_true",
         help="Parse and chunk files locally without calling Gemini or Qdrant.",
     )
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Check Qdrant connectivity and collection configuration without modifying data.",
+    )
 
     args = parser.parse_args()
     settings = get_settings()
@@ -97,8 +102,35 @@ def main() -> int:
 
     logger.info(f"Target book content directory: {book_dir}")
 
+    if args.check:
+        try:
+            from qdrant_client import QdrantClient
+
+            if not settings.qdrant_url.strip():
+                logger.error(
+                    "Qdrant check failed: QDRANT_URL is not configured. "
+                    "Set it in backend/.env or the backend process environment."
+                )
+                return 1
+
+            # Use the raw client for this read-only check. QdrantStore is the
+            # ingestion path and may create a missing collection by design.
+            client = QdrantClient(
+                url=settings.qdrant_url,
+                api_key=settings.qdrant_api_key or None,
+            )
+            client.get_collections()
+            info = client.get_collection(collection_name=settings.qdrant_collection_name)
+            configured_size = getattr(getattr(info, "config", None), "params", None)
+            logger.info(f"Qdrant connection: OK; collection={settings.qdrant_collection_name}; points={info.points_count}")
+            logger.info(f"Configured embedding dimension: {settings.embedding_dimension}; collection params={configured_size}")
+            return 0
+        except Exception as e:
+            logger.error(f"Qdrant check failed: {e}")
+            return 1
+
     if args.dry_run:
-        return run_dry_run(book_dir)
+        return run_dry_run(book_dir, settings.chunk_size, settings.chunk_overlap)
 
     # Validate prerequisites for live ingestion
     api_key = settings.gemini_api_key or os.environ.get("GEMINI_API_KEY")
@@ -117,10 +149,14 @@ def main() -> int:
         pipeline = RAGPipeline(
             embedding_model=settings.gemini_embedding_model,
             generation_model=settings.gemini_generation_model,
+            api_key=settings.gemini_api_key or settings.gemini_embedding_api_key,
             qdrant_url=settings.qdrant_url,
             qdrant_api_key=settings.qdrant_api_key,
+            collection_name=settings.qdrant_collection_name,
+            embedding_dimension=settings.embedding_dimension,
             book_dir=book_dir,
             evidence_threshold=settings.evidence_threshold,
+            retrieval_limit=settings.retrieval_limit,
             chunk_size=settings.chunk_size,
             chunk_overlap=settings.chunk_overlap,
         )

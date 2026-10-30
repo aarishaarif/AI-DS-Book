@@ -44,7 +44,7 @@ export default function ProgressPage(): JSX.Element {
       title="Learning Progress & Bookmarks | AI & Data Science Book"
       description="Track your learning milestones across all 9 modules, test knowledge retention, and manage bookmarked lessons."
     >
-      <main className="container margin-vert--lg" style={{ maxWidth: 900 }}>
+      <main className="container margin-vert--lg progress-page" style={{ maxWidth: 900 }}>
         <header style={{ marginBottom: '2rem', textAlign: 'center' }}>
           <Heading as="h1">📊 Learning Progress & Bookmarks</Heading>
           <p style={{ color: 'var(--ifm-color-emphasis-700)', fontSize: '1.05rem' }}>
@@ -57,6 +57,7 @@ export default function ProgressPage(): JSX.Element {
         </section>
 
         <section
+          className="progress-bookmarks"
           style={{
             background: 'var(--ifm-card-background-color, #ffffff)',
             border: '1px solid var(--ifm-color-emphasis-200, #e2e8f0)',
@@ -76,7 +77,7 @@ export default function ProgressPage(): JSX.Element {
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                 <button
-                  className="button button--outline button--sm button--primary"
+                  className="button button--outline button--sm button--primary progress-bookmark-button"
                   onClick={() =>
                     addQuickBookmark(
                       'Module 1: Python Foundations',
@@ -87,7 +88,7 @@ export default function ProgressPage(): JSX.Element {
                   + Bookmark Python Foundations
                 </button>
                 <button
-                  className="button button--outline button--sm button--primary"
+                  className="button button--outline button--sm button--primary progress-bookmark-button"
                   onClick={() =>
                     addQuickBookmark(
                       'Module 4: Machine Learning',
@@ -98,7 +99,7 @@ export default function ProgressPage(): JSX.Element {
                   + Bookmark Machine Learning
                 </button>
                 <button
-                  className="button button--outline button--sm button--primary"
+                  className="button button--outline button--sm button--primary progress-bookmark-button"
                   onClick={() =>
                     addQuickBookmark(
                       'Module 9: Agentic AI',
@@ -153,12 +154,9 @@ export default function ProgressPage(): JSX.Element {
           )}
         </section>
 
-        <section style={{ textAlign: 'center', marginTop: '2rem' }}>
-          <a href="/docs/intro" className="button button--primary button--lg" style={{ marginRight: '1rem' }}>
+        <section className="progress-page-actions">
+          <a href="/docs/intro" className="button button--primary button--lg">
             Resume Reading Book →
-          </a>
-          <a href="/chat" className="button button--secondary button--lg">
-            Ask RAG Chatbot →
           </a>
         </section>
       </main>

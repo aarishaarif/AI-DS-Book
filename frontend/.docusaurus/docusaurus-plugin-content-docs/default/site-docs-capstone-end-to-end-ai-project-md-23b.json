@@ -1,0 +1,23 @@
+{
+  "id": "capstone-end-to-end-ai-project",
+  "title": "Capstone: Build an End-to-End AI Learning Assistant",
+  "description": "This capstone connects the ideas from the nine modules into one small, explainable application. You will build a service that accepts a question, retrieves relevant lesson content, generates a grounded answer, and records enough information to debug the result.",
+  "source": "@site/docs/capstone-end-to-end-ai-project.md",
+  "sourceDirName": ".",
+  "slug": "/capstone-end-to-end-ai-project",
+  "permalink": "/docs/capstone-end-to-end-ai-project",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 10,
+  "frontMatter": {
+    "title": "Capstone: Build an End-to-End AI Learning Assistant",
+    "sidebar_position": 10
+  },
+  "sidebar": "bookSidebar",
+  "previous": {
+    "title": "Module 9: Agentic AI",
+    "permalink": "/docs/module-09-agentic-ai"
+  }
+}

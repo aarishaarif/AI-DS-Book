@@ -33,6 +33,8 @@ class ChatResponse(BaseModel):
     evidence_threshold_met: bool = Field(
         True, description="Whether sufficient evidence was found in the book"
     )
+    grounded: bool = True
+    classification: Optional[str] = None
 
 
 @router.post("", response_model=ChatResponse, tags=["chat"])
@@ -48,9 +50,15 @@ async def chat(request: ChatRequest):
             answer=result["answer"],
             citations=result.get("citations", []),
             evidence_threshold_met=result.get("evidence_threshold_met", False),
+            grounded=result.get("grounded", False),
+            classification=result.get("classification"),
         )
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Chat error: {e}")
-        raise HTTPException(status_code=500, detail="Internal server error")
+        logger.exception("Chat service error")
+        return ChatResponse(
+            answer="I'm temporarily unable to search the book. Please try again shortly.",
+            citations=[], evidence_threshold_met=False, grounded=False,
+            classification="service_error",
+        )

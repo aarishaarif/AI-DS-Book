@@ -20,6 +20,18 @@ sidebar_position: 6
 - Monitor data drift and model degradation in production
 - Apply CI/CD principles to ML pipelines
 
+## Why MLOps Exists
+
+Training a model is one step in a longer system. Data arrives, code changes, models are registered, an API serves predictions, and monitoring detects when reality no longer matches training assumptions. MLOps makes these steps repeatable so a useful experiment can become a dependable service.
+
+| Term | Meaning |
+| --- | --- |
+| Reproducibility | Recreating a result from recorded inputs and versions |
+| Artifact | A stored output such as a model or evaluation report |
+| Deployment | Making a model available to a consumer |
+| Data drift | A change in the distribution of input data |
+| Concept drift | A change in the relationship between inputs and target |
+
 ---
 
 ## 6.1 The MLOps Problem
@@ -346,6 +358,14 @@ jobs:
 5. Write a GitHub Actions workflow that trains a model, evaluates it, and fails if accuracy < 0.85.
 
 ---
+
+## Review Questions
+
+1. Why record data, code, parameters, and metrics for each experiment?
+2. What changes when a model moves from a notebook into a prediction service?
+3. How do containers help make a model service reproducible?
+4. What can data drift monitoring detect, and what can it not prove?
+5. Why should a deployment have versioning and a rollback plan?
 
 ## Further Reading
 

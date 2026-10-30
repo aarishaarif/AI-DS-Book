@@ -25,7 +25,6 @@ export default {
         "docs": {
           "sidebarPath": "./sidebars.ts",
           "routeBasePath": "/docs",
-          "editUrl": "https://github.com/your-org/ai-ds-learning-book/edit/main/frontend/",
           "showLastUpdateAuthor": false,
           "showLastUpdateTime": false
         },
@@ -66,16 +65,6 @@ export default {
           "to": "/progress",
           "label": "Progress",
           "position": "left"
-        },
-        {
-          "to": "/chat",
-          "label": "RAG Chatbot",
-          "position": "right"
-        },
-        {
-          "href": "https://github.com/your-org/ai-ds-learning-book",
-          "label": "GitHub",
-          "position": "right"
         }
       ],
       "hideOnScroll": false
@@ -104,10 +93,6 @@ export default {
           "title": "Learning Tools",
           "items": [
             {
-              "label": "RAG Chatbot",
-              "to": "/chat"
-            },
-            {
               "label": "Progress Tracker",
               "to": "/progress"
             }
@@ -123,7 +108,7 @@ export default {
           ]
         }
       ],
-      "copyright": "Copyright © 2026 AI & Data Science Learning Book. Independent educational project — not affiliated with Saylani."
+      "copyright": "Copyright © 2026 AI & Data Science Learning Book."
     },
     "prism": {
       "theme": {

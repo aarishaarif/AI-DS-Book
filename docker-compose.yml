@@ -1,5 +1,3 @@
-version: "3.9"
-
 # AI & Data Science Learning Book — Docker Compose
 #
 # Services:
@@ -28,12 +26,6 @@ services:
       - "6334:6334"
     volumes:
       - qdrant_data:/qdrant/storage
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:6333/healthz || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
     restart: unless-stopped
 
   # ── FastAPI backend ─────────────────────────────────────────────────────
@@ -47,13 +39,17 @@ services:
     env_file:
       - ./backend/.env
     environment:
+      # The bundled Qdrant service is the runtime store for local Compose.
+      # This prevents a stale QDRANT_URL in backend/.env from sending
+      # ingestion and chat requests to a different Cloud collection.
       QDRANT_URL: http://qdrant:6333
+      QDRANT_API_KEY: ""
+      # Gemini cosine similarities for valid book matches can be below 0.7.
+      # This threshold keeps relevant curriculum chunks available to RAG.
+      EVIDENCE_THRESHOLD: "0.45"
       BOOK_DIR: /docs
     volumes:
       - ./frontend/docs:/docs:ro
-    depends_on:
-      qdrant:
-        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL",
              "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')\" || exit 1"]

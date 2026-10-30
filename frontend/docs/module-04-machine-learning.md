@@ -19,6 +19,20 @@ sidebar_position: 4
 - Prevent overfitting using regularization, cross-validation, and proper splits
 - Interpret model performance with appropriate metrics
 
+## The Machine Learning Workflow
+
+A model learns a mapping from features to a target by minimizing error on training data. A reliable workflow keeps the test set untouched until final evaluation: define the question, inspect and split data, fit preprocessing on training data, train candidates, validate choices, evaluate once, and monitor after deployment.
+
+| Term | Meaning |
+| --- | --- |
+| Feature | An input variable used by a model |
+| Target | The value the model predicts |
+| Generalization | Performance on new data from the same process |
+| Leakage | Evaluation information accidentally used during training |
+| Baseline | A simple reference model for comparison |
+
+The most common source of misleadingly good results is leakage. A scaler, imputer, or feature selection step must learn its parameters from the training split only.
+
 ---
 
 ## 4.1 What Is Machine Learning?
@@ -110,6 +124,10 @@ print(f"RMSE: {np.sqrt(mean_squared_error(y_train, y_pred)):.3f}")
 print(f"Coefficient: {model.coef_[0]:.3f}, Intercept: {model.intercept_:.3f}")
 ```
 
+:::tip How this code works
+`fit` learns the line's coefficient and intercept from the training examples. `predict` applies that learned relationship to produce estimates, while R² measures explained variation and RMSE measures the typical prediction error in the target's units.
+:::
+
 ### Ridge and Lasso Regression (Regularization)
 
 ```python
@@ -147,6 +165,27 @@ y_pred = model.predict(X_test)
 print(f"Accuracy: {accuracy_score(y_test, y_pred):.3f}")
 print(classification_report(y_test, y_pred, target_names=iris.target_names))
 ```
+
+### K-Nearest Neighbors (KNN)
+
+KNN predicts a label by finding the *k* training examples closest to a new point. For classification it uses the majority label among those neighbors; for regression it averages their target values. “Training” mostly means saving the examples, so prediction can be expensive on a large dataset.
+
+Distance depends on feature scale. If one feature is measured in thousands and another between zero and one, the large-scale feature can dominate the neighbor search. Fit scaling only on the training split, then reuse it for validation and test data. A scikit-learn pipeline keeps those steps together:
+
+```python
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+knn = make_pipeline(
+    StandardScaler(),
+    KNeighborsClassifier(n_neighbors=5, weights="distance", metric="minkowski"),
+)
+knn.fit(X_train, y_train)
+print(f"Test accuracy: {knn.score(X_test, y_test):.3f}")
+```
+
+Here `n_neighbors=5` uses five nearby rows. `weights="distance"` gives closer rows more influence than distant ones. The default Minkowski distance is Euclidean when `p=2`; `p=1` gives Manhattan distance. Choose *k*, the distance measure, and weighting with cross-validation rather than the test set. A very small *k* is sensitive to noise; a very large *k* smooths away local patterns. KNN is a useful, simple baseline for small datasets, but it can be slow and memory-heavy at prediction time and becomes less meaningful with many irrelevant features.
 
 ### Decision Tree
 
@@ -336,6 +375,14 @@ if train_score - test_score > 0.1:
 5. Visualize the learning curve for a model to diagnose bias vs. variance.
 
 ---
+
+## Review Questions
+
+1. How do training, validation, and test sets serve different purposes?
+2. Why must preprocessing be fitted on training data inside a pipeline?
+3. When is accuracy misleading, and which metric could help instead?
+4. How do KNN, SVM, and decision trees make predictions differently?
+5. What information does PCA preserve, and what information can it lose?
 
 ## Further Reading
 

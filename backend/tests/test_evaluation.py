@@ -206,8 +206,10 @@ class TestRAGEvaluation:
 
         assert res["evidence_threshold_met"] is False
         assert len(res["citations"]) == 0
-        assert "I couldn't find sufficient information" in res["answer"]
-        assert "AI & Data Science Book" in res["answer"]
+        assert res["answer"] == (
+            "I can only answer questions using the content available in this AI/ML book. "
+            "I could not find enough relevant information in the book to answer your question."
+        )
 
     def test_evaluation_metric_accuracy(self, mock_pipeline_builder):
         """Compute aggregate precision/recall over the full benchmark."""

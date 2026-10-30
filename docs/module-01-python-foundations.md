@@ -20,6 +20,18 @@ By the end of this module, you will be able to:
 
 No prior programming experience required. All necessary concepts will be explained from the basics.
 
+## How to Think About Python
+
+Python is a language for describing a process precisely. Variables name values, data structures organize them, and control flow decides which instructions run. Think of a program as a recipe: data structures hold ingredients, functions are reusable steps, and conditions and loops control the order of work.
+
+| Term | Meaning |
+| --- | --- |
+| Expression | Code that produces a value, such as `2 + 3` |
+| Statement | An instruction, such as an assignment |
+| Mutable | Able to change after creation, as a list can |
+| Immutable | Unable to change after creation, as a tuple cannot |
+| Scope | The part of a program where a name can be used |
+
 ## 1.1 Variables and Data Types
 
 Python is dynamically typed, which means you don't need to specify the type of a variable when you create it. The type is determined by the value you assign.

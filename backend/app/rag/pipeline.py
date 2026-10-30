@@ -6,6 +6,7 @@ from .store import QdrantStore
 from .retrieve import RAGRetriever
 from .generator import AnswerGenerator
 from .ingest import BookContentIndexer
+from .constants import REFUSAL_MESSAGE
 
 
 class RAGPipeline:
@@ -15,11 +16,15 @@ class RAGPipeline:
         self,
         *,
         embedding_model: str = "models/gemini-embedding-001",
-        generation_model: str = "gemini-2.0-flash-exp",
+        generation_model: str = "gemini-3.5-flash-lite",
         qdrant_url: str = "http://localhost:6333",
         qdrant_api_key: str = "",
         book_dir: str = "../frontend/docs",
         evidence_threshold: float = 0.7,
+        embedding_dimension: int = 768,
+        collection_name: str = "ai_ds_book",
+        retrieval_limit: int = 6,
+        api_key: str = "",
         chunk_size: int = 800,
         chunk_overlap: int = 100,
         generation_temperature: float = 0.7,
@@ -29,19 +34,24 @@ class RAGPipeline:
         self.embedder = GeminiEmbedder(
             embedding_model=embedding_model,
             generation_model=generation_model,
+            api_key=api_key,
+            output_dimension=embedding_dimension,
         )
         self.store = QdrantStore(
             url=qdrant_url,
             api_key=qdrant_api_key,
+            collection_name=collection_name,
+            vector_size=embedding_dimension,
         )
         self.retriever = RAGRetriever(
             embedder=self.embedder,
             store=self.store,
-            limit=5,
+            limit=retrieval_limit,
             score_threshold=evidence_threshold,
         )
         self.generator = AnswerGenerator(
             generation_model=generation_model,
+            api_key=api_key,
             evidence_threshold=evidence_threshold,
         )
         self.indexer = BookContentIndexer(
@@ -52,7 +62,7 @@ class RAGPipeline:
             book_dir=book_dir,
         )
 
-    def answer_question(self, question: str) -> Dict[str, Any]:
+    def answer_question(self, question: str, history: Optional[List[Dict[str, str]]] = None) -> Dict[str, Any]:
         """Answer a user question using the full RAG pipeline.
 
         Args:
@@ -61,8 +71,32 @@ class RAGPipeline:
         Returns:
             Dict with answer, citations, and evidence status
         """
-        # Retrieve relevant chunks
-        retrieved_chunks = self.retriever.retrieve_chunks(question)
+        normalized = question.strip().lower()
+        if normalized in {"hi", "hello", "hey", "salam", "assalamualaikum", "good morning", "good evening"}:
+            return {
+                "answer": "Hello! Ask me about a concept covered in the AI & Data Science Learning Book.",
+                "citations": [], "evidence_threshold_met": True, "grounded": True,
+            }
+
+        # Retrieval is performed before scope classification. This supports
+        # natural questions such as "What is a variable?" even when the exact
+        # module name is not present in the wording.
+        scope_terms = (
+            "python", "numpy", "pandas", "visualization", "statistics", "probability",
+            "linear algebra", "calculus", "machine learning", "regression", "classification",
+            "clustering", "neural", "deep learning", "cnn", "rnn", "mlops", "mlflow",
+            "spark", "big data", "cloud", "kafka", "llm", "language model", "transformer",
+            "embedding", "prompt", "rag", "fine tuning", "agent", "react", "tool calling",
+            "fastapi", "docker", "data science",
+        )
+        try:
+            retrieved_chunks = self.retriever.retrieve_chunks(question)
+        except Exception:
+            return {
+                "answer": "I'm temporarily unable to search the book. Please try again shortly.",
+                "citations": [], "evidence_threshold_met": False, "grounded": False,
+                "classification": "service_error",
+            }
 
         # Check if sufficient evidence exists
         has_sufficient = self.retriever.check_sufficient_evidence(
@@ -70,20 +104,20 @@ class RAGPipeline:
         )
 
         if not has_sufficient:
+            classification = "missing_content" if any(term in normalized for term in scope_terms) else "out_of_scope"
             return {
-                "answer": (
-                    "I couldn't find sufficient information about this topic in the AI & Data Science Book. "
-                    "Please try asking about a topic covered in the book."
-                ),
+                "answer": REFUSAL_MESSAGE,
                 "citations": [],
                 "evidence_threshold_met": False,
                 "grounded": False,
+                "classification": classification,
             }
 
         # Generate answer from retrieved chunks
         result = self.generator.generate_answer(
             question=question,
             chunks=retrieved_chunks,
+            history=history or [],
         )
 
         # Format citations

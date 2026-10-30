@@ -20,6 +20,18 @@ By the end of this module, you will be able to:
 
 No prior programming experience required. All necessary concepts will be explained from the basics.
 
+## How to Think About Python
+
+Python is a language for describing a process precisely. Variables name values, data structures organize them, and control flow decides which instructions run. Think of a program as a recipe: data structures hold ingredients, functions are reusable steps, and conditions and loops control the order of work.
+
+| Term | Meaning |
+| --- | --- |
+| Expression | Code that produces a value, such as `2 + 3` |
+| Statement | An instruction, such as an assignment |
+| Mutable | Able to change after creation, as a list can |
+| Immutable | Unable to change after creation, as a tuple cannot |
+| Scope | The part of a program where a name can be used |
+
 ## 1.1 Variables and Data Types
 
 Python is dynamically typed, which means you don't need to specify the type of a variable when you create it. The type is determined by the value you assign.
@@ -41,6 +53,10 @@ is_student = True
 is_professor = False
 print(f"Student: {is_student}, Professor: {is_professor}")  # Student: True, Professor: False
 ```
+
+:::tip How this code works
+Each assignment stores a value under a readable name. Python infers the type from the value: `25` is an integer, `98.6` is a float, and `True` is a Boolean. The `f` before a string lets us insert values inside `{}` without manually joining strings together.
+:::
 
 ### Example 2: String Types
 
@@ -84,6 +100,10 @@ print(f"X coordinate: {coordinates[0]}")  # X coordinate: 10
 # Tuples are immutable - this would raise an error:
 # coordinates[0] = 5  # TypeError: 'tuple' object does not support item assignment
 ```
+
+:::tip How this code works
+Both lists and tuples preserve order, so indexing starts at `0`. The important difference is mutability: `append()` changes a list, while a tuple is fixed after creation. Use a list for data that will grow or change; use a tuple for a small record that should stay stable.
+:::
 
 ## 1.2 Control Flow
 
@@ -161,6 +181,10 @@ def greet(name, greeting="Hello"):
 greet("Alice")  # Output: Hello, Alice!
 greet("Bob", "Hi")  # Output: Hi, Bob!
 ```
+
+:::tip How this code works
+`name` is a required parameter and `greeting="Hello"` is a default parameter. Calling the function creates a local `message`, prints it, and returns the same value so another part of the program can reuse it. A function turns repeated logic into a named, testable unit.
+:::
 
 ### Example 2: Function with Return Value
 
@@ -268,6 +292,10 @@ mean_array = np.mean(array_1d)  # 3.0
 print(f"Array sum: {sum_array}")
 print(f"Array mean: {mean_array}")
 ```
+
+:::tip How this code works
+NumPy stores the numbers in an array and applies `sum` and `mean` to the whole collection. This is called vectorized computation: instead of writing a Python loop, we express the operation once and let NumPy perform it efficiently.
+:::
 
 ### Collections Module
 
